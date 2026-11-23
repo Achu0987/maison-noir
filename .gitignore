@@ -1,0 +1,8 @@
+node_modules
+.next
+.scratch
+.taste-skill
+
+data
+public/uploads
+.env.local

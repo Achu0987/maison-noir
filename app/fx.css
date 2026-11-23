@@ -1,0 +1,58 @@
+/* ---- Motion system ---- */
+.scrollbar { position: fixed; left: 0; right: 0; top: 0; height: 4px; z-index: 120; background: var(--red-2); transform-origin: left; pointer-events: none; }
+html[data-calm] *, html[data-calm] *::before, html[data-calm] *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+
+/* Statement: scroll-filled words on dark */
+.statement { background: var(--dark); color: #fff; padding: clamp(90px, 12vw, 200px) 0; position: relative; overflow: hidden; }
+.st-text { font-size: clamp(40px, 6.2vw, 120px); line-height: 1.02; max-width: 18ch; max-width: 1500px; text-transform: uppercase; }
+.st-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: clamp(50px, 7vw, 110px); }
+.st-stats div { display: grid; gap: 6px; }
+.st-stats b { font-family: var(--font-display); font-weight: 700; font-size: clamp(64px, 8vw, 140px); line-height: 0.95; color: var(--red-2); }
+.st-stats span { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: clamp(18px, 1vw + 8px, 26px); color: #cfcfd3; }
+@media (max-width: 860px) { .st-stats { grid-template-columns: 1fr 1fr; } }
+
+/* Outline bands */
+.band { overflow: hidden; padding: clamp(30px, 4vw, 70px) 0; background: #fff; white-space: nowrap; display: grid; gap: 0; }
+.band-line { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: clamp(90px, 13vw, 240px); line-height: 0.95; color: transparent; -webkit-text-stroke: 2px var(--ink); will-change: transform; width: max-content; }
+.band-line.fill { color: var(--red); -webkit-text-stroke: 0; }
+
+/* Draw-on icons */
+.svc svg * { stroke-dasharray: 220; stroke-dashoffset: 220; transition: stroke-dashoffset 1.8s var(--ease) 0.2s; }
+.svc.drawn svg * { stroke-dashoffset: 0; }
+
+/* Process scene */
+.process { height: 480vh; position: relative; background: var(--dark); color: #fff; }
+.proc-stick { position: sticky; top: 0; height: 100svh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(30px, 6vw, 110px); padding: calc(var(--header) + 10px) var(--gutter) 40px; }
+.proc-img { position: relative; height: min(100%, 760px); aspect-ratio: 4 / 5; justify-self: end; overflow: hidden; background: #222; }
+.proc-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.proc-copy { display: grid; gap: 24px; justify-items: start; max-width: 640px; }
+.proc-word { overflow: hidden; height: clamp(90px, 12vw, 210px); font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: clamp(90px, 12vw, 210px); line-height: 1; }
+.proc-word span { display: block; }
+.proc-copy p { font-size: clamp(18px, 0.5vw + 12px, 24px); color: #cfcfd3; min-height: 4.8em; max-width: 36ch; }
+.proc-dots { display: flex; gap: 10px; }
+.proc-dots span { width: 12px; height: 12px; border-radius: 6px; background: #3a3a3d; transition: width 0.5s var(--ease), background 0.3s; }
+.proc-dots span.on { width: 44px; background: var(--red-2); }
+.proc-bar { width: 100%; height: 3px; background: #333; } .proc-bar i { display: block; height: 100%; background: var(--red-2); transform-origin: left; }
+@media (max-width: 860px) {
+  .process { height: 420vh; }
+  .proc-stick { grid-template-columns: 1fr; align-content: center; gap: 20px; padding-top: calc(var(--header) + 10px); }
+  .proc-img { height: 38svh; aspect-ratio: auto; width: 100%; justify-self: stretch; }
+  .proc-word { height: 20vw; font-size: 20vw; }
+  .proc-copy p { min-height: 6em; }
+}
+
+/* Route wipe */
+.route-wipe { position: fixed; inset: 0; z-index: 200; pointer-events: none; }
+.route-wipe i { position: absolute; inset: 0; display: block; }
+.route-wipe i:nth-child(1) { background: var(--red); }
+.route-wipe i:nth-child(2) { background: var(--dark); }
+
+/* Smoother card reveal */
+.card { transform-style: preserve-3d; }
+
+/* Calm toggle */
+.calm-btn { font-size: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Round images set inside the sentence */
+.st-pill { display: inline-block; width: 1.12em; height: 1.12em; border-radius: 50%; overflow: hidden; vertical-align: -0.16em; margin: 0 0.06em; background: #2a2a2d; will-change: transform; }
+.st-pill img { display: block; width: 100%; height: 100%; object-fit: cover; will-change: transform; }
