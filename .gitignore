@@ -9,3 +9,7 @@ public/uploads
 .next-build
 .vercel
 .env*.local
+
+.vercel
+.env*
+out-static

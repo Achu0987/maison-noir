@@ -1,9 +1,18 @@
 "use client";
 
 export async function postJSON<T = Record<string, unknown>>(url: string, body: unknown): Promise<{ ok: boolean; status: number; data: T & { error?: string } }> {
-  const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  const data = await res.json().catch(() => ({}));
-  return { ok: res.ok, status: res.status, data };
+  try {
+    const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const ct = res.headers.get("content-type") || "";
+    if (!ct.includes("application/json")) {
+      // The static GitHub Pages build has no server, so API calls come back as a page, not JSON.
+      return { ok: false, status: res.status, data: { error: "This is the static preview of the site, so orders, bookings and forms are switched off here." } as T & { error?: string } };
+    }
+    const data = await res.json().catch(() => ({}));
+    return { ok: res.ok, status: res.status, data };
+  } catch {
+    return { ok: false, status: 0, data: { error: "Could not reach the server. Please try again." } as T & { error?: string } };
+  }
 }
 
 declare global { interface Window { Razorpay?: new (o: Record<string, unknown>) => { open: () => void } } }

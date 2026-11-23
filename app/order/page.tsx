@@ -30,7 +30,7 @@ function Inner() {
   const [rz, setRz] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const load = () => fetch(`/api/orders?id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`).then((r) => r.json()).then((d) => { if (d.order) { setO(d.order); setPoints(d.points); setRz(d.razorpay); } else setMsg(d.error || "Order not found"); });
+  const load = () => fetch(`/api/orders?id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`).then((r) => r.json()).then((d) => { if (d.order) { setO(d.order); setPoints(d.points); setRz(d.razorpay); } else setMsg(d.error || "Order not found"); }).catch(() => setMsg("Order lookup needs the live server. This static preview cannot show orders."));
   useEffect(() => { if (id && email) load(); /* eslint-disable-next-line */ }, [id, email]);
 
   const pay = async () => {
