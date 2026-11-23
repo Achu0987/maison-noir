@@ -1,10 +1,12 @@
 import fs from "fs/promises";
 import path from "path";
+import os from "os";
 import crypto from "crypto";
 import { bySlug, FREE_SHIP } from "./products";
 
 /* Tiny JSON-file store. Good for local use and demos. Swap for a real database (Postgres, Supabase, Shopify) before launch. */
-const dir = path.join(process.cwd(), "data");
+// On Vercel the project folder is read-only, so the demo store lives in /tmp (it resets when the server instance recycles). Use a real database for production.
+const dir = process.env.VERCEL ? path.join(os.tmpdir(), "mn-data") : path.join(process.cwd(), "data");
 
 export async function read<T>(name: string, fallback: T): Promise<T> {
   try { return JSON.parse(await fs.readFile(path.join(dir, name + ".json"), "utf8")) as T; } catch { return fallback; }

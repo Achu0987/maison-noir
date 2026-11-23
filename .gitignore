@@ -6,3 +6,6 @@ node_modules
 data
 public/uploads
 .env.local
+.next-build
+.vercel
+.env*.local

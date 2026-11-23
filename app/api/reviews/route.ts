@@ -24,11 +24,15 @@ export async function POST(req: Request) {
     if (!m) return NextResponse.json({ error: "Photo must be a JPG, PNG or WebP" }, { status: 400 });
     const buf = Buffer.from(m[2], "base64");
     if (buf.length > 2_000_000) return NextResponse.json({ error: "Photo must be under 2 MB" }, { status: 400 });
-    const file = `${uid("r", 8)}.${m[1] === "jpeg" ? "jpg" : m[1]}`;
-    const dir = path.join(process.cwd(), "public", "uploads", "reviews");
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(path.join(dir, file), buf);
-    photo = `/uploads/reviews/${file}`;
+    if (process.env.VERCEL) {
+      photo = b.photo; // read-only filesystem: keep the image inline with the review
+    } else {
+      const file = `${uid("r", 8)}.${m[1] === "jpeg" ? "jpg" : m[1]}`;
+      const dir = path.join(process.cwd(), "public", "uploads", "reviews");
+      await fs.mkdir(dir, { recursive: true });
+      await fs.writeFile(path.join(dir, file), buf);
+      photo = `/uploads/reviews/${file}`;
+    }
   }
   const all = await read<Review[]>("reviews", []);
   all.push({ id: uid("R", 6), slug, name, rating, text, photo, status: "pending", createdAt: new Date().toISOString() });
